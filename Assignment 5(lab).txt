@@ -1,0 +1,50 @@
+
+import cv2
+from matplotlib import pyplot as plt
+
+img = cv2.imread("image.jpg")   
+if img is None:
+    print("Image not found! Please check the filename.")
+else:
+    cv2.imshow("Original Image", img)
+    cv2.waitKey(1000)
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+cv2.imshow("Gray Image", gray)
+cv2.waitKey(1000)
+
+
+resized = cv2.resize(img, (300, 300))
+cv2.imshow("Resized Image", resized)
+cv2.waitKey(1000)
+
+img_copy = img.copy()
+cv2.rectangle(img_copy, (50, 50), (200, 200), (255, 0, 0), 3)
+cv2.circle(img_copy, (150, 150), 50, (0, 255, 0), 3)
+cv2.line(img_copy, (0, 0), (200, 200), (0, 0, 255), 2)
+cv2.putText(img_copy, 'OpenCV', (10, 250), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+cv2.imshow("Shapes & Text", img_copy)
+cv2.waitKey(1000)
+
+edges = cv2.Canny(gray, 100, 200)
+cv2.imshow("Canny Edge Detection", edges)
+cv2.waitKey(1000)
+
+
+blur = cv2.GaussianBlur(img, (15, 15), 0)
+cv2.imshow("Gaussian Blur", blur)
+cv2.waitKey(1000)
+
+
+cv2.imwrite("output_gray.jpg", gray)
+cv2.imwrite("output_edges.jpg", edges)
+cv2.imwrite("output_blur.jpg", blur)
+print("Images saved successfully as output_gray.jpg, output_edges.jpg, and output_blur.jpg")
+
+cv2.destroyAllWindows()
+
+plt.figure(figsize=(10,4))
+plt.subplot(1,3,1); plt.imshow(cv2.cvtColor(gray, cv2.COLOR_BGR2RGB)); plt.title("Gray")
+plt.subplot(1,3,2); plt.imshow(cv2.cvtColor(edges, cv2.COLOR_BGR2RGB)); plt.title("Edges")
+plt.subplot(1,3,3); plt.imshow(cv2.cvtColor(blur, cv2.COLOR_BGR2RGB)); plt.title("Blur")
+plt.show()
